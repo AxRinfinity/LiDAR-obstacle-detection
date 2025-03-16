@@ -1,0 +1,67 @@
+# LiDAR Obstacle Detection Pipeline Configuration
+
+preprocessing:
+  # Voxel grid downsampling
+  voxel_size: 0.1  # meters
+  
+  # Crop region (in meters)
+  x_min: -40.0
+  x_max: 40.0
+  y_min: -20.0
+  y_max: 20.0
+  z_min: -2.5
+  z_max: 1.0
+  
+  # Outlier removal
+  radius_outlier_radius: 0.5
+  radius_outlier_min_neighbors: 2
+
+segmentation:
+  # RANSAC parameters for ground plane segmentation
+  distance_threshold: 0.2  # meters
+  ransac_n: 3
+  num_iterations: 100
+  
+  # Ground plane constraints
+  ground_normal_threshold: 0.8  # dot product threshold with [0,0,1]
+  ground_z_max: -1.0  # maximum z-value for ground points
+
+clustering:
+  # DBSCAN parameters
+  eps: 0.5  # meters
+  min_points: 10
+  
+  # Cluster filtering
+  min_cluster_size: 10
+  max_cluster_size: 10000
+
+tracking:
+  # Kalman filter parameters
+  process_noise_scale: 0.1
+  measurement_noise_scale: 0.1
+  
+  # Association parameters
+  max_distance: 2.0  # meters
+  
+  # Track management
+  min_hits_to_initialize: 3
+  max_age: 5
+
+visualization:
+  # Point cloud colors
+  original_color: [0.5, 0.5, 0.5]  # gray
+  ground_color: [0.0, 1.0, 0.0]    # green
+  obstacle_color: [1.0, 0.0, 0.0]  # red
+  
+  # Cluster visualization
+  use_cluster_colors: true
+  
+  # Bounding box visualization
+  show_bounding_boxes: true
+  box_line_width: 2.0
+  
+  # Display settings
+  point_size: 2.0
+  background_color: [0.0, 0.0, 0.0]  # black
+  window_width: 1280
+  window_height: 720 
